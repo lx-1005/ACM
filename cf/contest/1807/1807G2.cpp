@@ -1,6 +1,6 @@
 /** 
  *     author:  JiuR
- *     created: 2025-05-20 14.54.10
+ *     created: 2025-05-07 19.15.41
 **/
 #include <bits/stdc++.h>
 #include<chrono>
@@ -59,27 +59,8 @@ const int inf = 0x3f3f3f3f;
 
 */
 
-void f(const std::string& s) {
-    cout << s << endl;
-}
-
-class PredictConnector {
-
-public:
-    PredictConnector() {}
-    ~PredictConnector() {}
-   
-
-private:
-    
-    bool is_admin_poi(uint64_t uid, uint32_t areaid);
-    
-};
-
 void solve() {
 
-    PredictConnector p;
-    cout << p.is_admin_poi(123,123) << endl;;
 }
 
 int main() {
@@ -88,7 +69,7 @@ int main() {
     auto start_time = clock();
 
     int T = 1;
-    // cin >> T;
+    cin >> T;
     while (T--) {
         solve();
     }

@@ -1,9 +1,8 @@
 /** 
  *     author:  JiuR
- *     created: 2025-05-20 14.54.10
+ *     created: 2024-09-14 16.40.43
 **/
 #include <bits/stdc++.h>
-#include<chrono>
 using namespace std;
 
 template<class T1, class T2> istream &operator>>(istream &cin, pair<T1, T2> &a) { return cin>>a.first>>a.second; }
@@ -15,22 +14,6 @@ template<class T1> ostream &operator<<(ostream &cout, const vector<T1> &a) { int
 template<class T1> ostream &operator<<(ostream &cout, const valarray<T1> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<' '<<a[i]; return cout; }
 template<class T1> ostream &operator<<(ostream &cout, const vector<valarray<T1>> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<'\n'<<a[i]; return cout; }
 template<class T1> ostream &operator<<(ostream &cout, const vector<vector<T1>> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<'\n'<<a[i]; return cout; }
-
-struct custom_hash {
-    static uint64_t splitmix64(uint64_t x) {
-        // http://xorshift.di.unimi.it/splitmix64.c
-        x += 0x9e3779b97f4a7c15;
-        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-        return x ^ (x >> 31);
-    }
-
-    size_t operator()(uint64_t x) const {
-        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
-        return splitmix64(x + FIXED_RANDOM);
-    }
-};
-// unordered_map<int, int, custom_hash> mp;
 
 using ll = long long;
 using i128 = __int128;
@@ -59,27 +42,49 @@ const int inf = 0x3f3f3f3f;
 
 */
 
-void f(const std::string& s) {
-    cout << s << endl;
+ll f(vector<ll> a, ll d) {
+    sort(all(a), greater<ll>());
+
+    ll s = 0;
+    for (int i = 0; i < min((ll)sz(a), d); i++) s += a[i];
+    return s;
 }
 
-class PredictConnector {
+bool noSupport(vector<ll>& a, ll c, ll d, ll k) {
+    sort(all(a), greater<ll>());
+    ll n = sz(a);
+    for (int i = 0; i < d; i++) {
+        if (k + 1 <= n) {
+            c -= a[i % (k + 1)];
+        } else {
+            if (i % (k + 1) < n) c -= a[i % (k + 1)];
+        }
+    }
 
-public:
-    PredictConnector() {}
-    ~PredictConnector() {}
-   
+    return c > 0;
+}
 
-private:
-    
-    bool is_admin_poi(uint64_t uid, uint32_t areaid);
-    
-};
 
 void solve() {
+    ll n, c, d;
+    cin >> n >> c >> d;
 
-    PredictConnector p;
-    cout << p.is_admin_poi(123,123) << endl;;
+    vector<ll> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    if (*max_element(all(a)) * d < c) cout << "Impossible\n";
+    else if (f(a, d) >= c) cout << "Infinity\n"; 
+    else {
+        // 从不满足到满足，找满足的最大值
+        // 等价于找不满足的最小值-1
+        ll l = -1, r = d;
+        while (l + 1 < r) {
+            ll mid = (l + r) >> 1;
+            if (noSupport(a, c, d, mid)) r = mid;
+            else l = mid;
+        }
+        cout << r - 1 << '\n';
+    }
 }
 
 int main() {
@@ -88,7 +93,7 @@ int main() {
     auto start_time = clock();
 
     int T = 1;
-    // cin >> T;
+    cin >> T;
     while (T--) {
         solve();
     }

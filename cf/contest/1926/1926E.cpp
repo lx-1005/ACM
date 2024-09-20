@@ -1,9 +1,8 @@
 /** 
  *     author:  JiuR
- *     created: 2025-05-20 14.54.10
+ *     created: 2025-05-06 16.48.24
 **/
 #include <bits/stdc++.h>
-#include<chrono>
 using namespace std;
 
 template<class T1, class T2> istream &operator>>(istream &cin, pair<T1, T2> &a) { return cin>>a.first>>a.second; }
@@ -15,22 +14,6 @@ template<class T1> ostream &operator<<(ostream &cout, const vector<T1> &a) { int
 template<class T1> ostream &operator<<(ostream &cout, const valarray<T1> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<' '<<a[i]; return cout; }
 template<class T1> ostream &operator<<(ostream &cout, const vector<valarray<T1>> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<'\n'<<a[i]; return cout; }
 template<class T1> ostream &operator<<(ostream &cout, const vector<vector<T1>> &a) { int n=a.size(); if (!n) return cout; cout<<a[0]; for (int i=1; i<n; i++) cout<<'\n'<<a[i]; return cout; }
-
-struct custom_hash {
-    static uint64_t splitmix64(uint64_t x) {
-        // http://xorshift.di.unimi.it/splitmix64.c
-        x += 0x9e3779b97f4a7c15;
-        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
-        return x ^ (x >> 31);
-    }
-
-    size_t operator()(uint64_t x) const {
-        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
-        return splitmix64(x + FIXED_RANDOM);
-    }
-};
-// unordered_map<int, int, custom_hash> mp;
 
 using ll = long long;
 using i128 = __int128;
@@ -57,29 +40,25 @@ const int inf = 0x3f3f3f3f;
 
 /*
 
+https://www.luogu.com/article/q1pzhsju
+
+1. 有很多操作是无法取出牌的，只有第2^x轮才能取出牌，称为有效轮
+2. 第c轮，此时剩余牌m张，会取出(m+1)/2张牌，取出牌的编号依次为 c*(2*i-1),i=1,2,3,4,...
+
 */
 
-void f(const std::string& s) {
-    cout << s << endl;
-}
-
-class PredictConnector {
-
-public:
-    PredictConnector() {}
-    ~PredictConnector() {}
-   
-
-private:
-    
-    bool is_admin_poi(uint64_t uid, uint32_t areaid);
-    
-};
-
 void solve() {
+    int n, k;
+    cin >> n >> k;
 
-    PredictConnector p;
-    cout << p.is_admin_poi(123,123) << endl;;
+    int c = 1; // 轮数
+    while (k > (n + 1) / 2) {
+        // 第c有效轮，会取出(n+1)/2个
+        k -= (n + 1) / 2;
+        n >>= 1;
+        c <<= 1;
+    }
+    cout << c * (2 * k - 1) << '\n';
 }
 
 int main() {
@@ -88,7 +67,7 @@ int main() {
     auto start_time = clock();
 
     int T = 1;
-    // cin >> T;
+    cin >> T;
     while (T--) {
         solve();
     }
