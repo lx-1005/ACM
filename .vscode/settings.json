@@ -112,6 +112,8 @@
         "filesystem": "cpp",
         "version": "cpp"
     },
-    "clangd.path": "/opt/homebrew/opt/llvm/bin/clangd",
-    "terminal.integrated.tabStopWidth": 4
+    // "clangd.path": "/opt/homebrew/opt/llvm/bin/clangd",
+    "terminal.integrated.tabStopWidth": 4,
+    "trae.tab.enableRename": false,
+    "trae.tab.enableAutoImport": false
 }
