@@ -1,0 +1,54 @@
+未初始化变量                              → 默认 0 / nil
+
+
+vector<T>                                → []T
+vector<vector<int>>(n, m) a;               → a := make([][]int,n)
+                                             for i := range a {
+                                                a[i] = make([]int, m)
+                                             }
+v.push_back(x)                            → v = append(v, x)
+
+
+unordered_map<int, int> um;                        → um := map[int]int{}
+unordered_set<int> us;                         → us := map[int]bool{}
+unordered_map 可用任意 key                 → map key 不能是 slice
+um.insert({1,2})                              → um[1]=2
+us.insert(1)                              → us[1]=true
+um.count(1)                               → if val, ok := um[1]; ok { }
+us.count(1)                               → if val, ok := us[1]; ok { }
+
+map<T>                                    → map[K]V
+set<T>                                    → map[T]bool
+
+
+
+for (auto& x : v)                          → for _, x := range v
+for (auto& [k, v] : mp)                    → for k, v := range mp
+
+
+string（可变）                              → string（不可变）
+
+
+sort(s.begin(), s.end())                   → sort.Slice([]byte(s), less)
+sort(v.begin(), v.end())                    → sort.Slice(v, less)
+sort(v.begin(), v.end())                    → sort.Ints(v)
+sort(v.begin(), v.end())                    → sort.Strings(v)
+
+
+for(auto&[_,v]:mp) res.push_back(v)       → for _,v:=range mp { res=append(res,v) } 或者 res=slices.Collect(maps.Values(mp))
+
+
+queue<T>                                   → []T
+q.push(x)                                  → q = append(q, x)
+q.front(); q.pop()                          → x := q[0]; q = q[1:]
+
+
+priority_queue<T>                          → container/heap 模板
+
+
+max/min/abs(a, b)                           → math.Max(float64(a), float64(b))
+                                           → math.Min(...)
+                                           → math.Abs(...)
+
+slice 引用 / 值拷贝明确                     → slice 为引用语义，append 可能扩容
+STL / string API 丰富                        → 不用 slices / maps / strings / bytes
