@@ -63,7 +63,6 @@ const int inf = 0x3f3f3f3f;
 */
 
 void solve() {
-    labs
 }
 
 int main() {
